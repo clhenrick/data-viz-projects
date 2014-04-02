@@ -1,31 +1,36 @@
 class Bubble {
-  float posX, posY, r;
-  color c;
-  String[] name = new String[253];
+  String name; //name of country
+  int xValue; // value for x-axis
+  int yValue; // value for y-axis
+  float r; // radius for size of bubble
+  color c; // color of bubble (TBD...)
+  PVector pos; // PVector to store x y coordinates
+  
+  
   // Bubble constructor
-  Bubble(float _x, float _y, float _r, color _c){
-    posX = _x;
-    posY = _y;
-    c = _c;
-    r = _r;
+  Bubble(float x_, float y_, float r_, color c_){
+    pos.x = x_;
+    pos.y = y_;
+    r = r_;
+    c = c_;
   }
   
   void display(){
     // check for mouseover
-    if (dist(mouseX, mouseY, posX, posY) <= r) {
+    if (dist(mouseX, mouseY, pos.x, pos.y) <= r) {
       fill(0);
     } else {
       fill(c);
     }
     noStroke();
-    ellipse(posX, posY, r, r);    
+    ellipse(pos.x, pos.y, r, r);
   }
   
-  void displayLabel(){
-    if (dist(mouseX, mouseY, posX, posY) <= r) {
-      String txt = "test";
-      Label label = new Label(txt, mouseX, mouseY);
-    }
-  }
+//  void displayLabel(){
+//    if (dist(mouseX, mouseY, posX, posY) <= r) {
+//      String txt = "test";
+//      Label label = new Label(txt, mouseX, mouseY);
+//    }
+//  }
   
 }
