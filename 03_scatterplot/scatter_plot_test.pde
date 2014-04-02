@@ -40,27 +40,25 @@ String yPerCapitaLabel = "Per-Capita CO2 output (metric tons, scaled logarithmic
 
 Plot countryLevel;
 Plot perCapita;
+Plot graphValue;
 
-boolean flag;
+boolean toggle = true;
 
 void setup() {
-  //colorMode(HSB, 360, 100, 100, 255);
-  //colorMode(RGB, 255, 255, 255, 255);
   size(1300, 900);
-  countryLevel = new Plot(leftMargin, topMargin, width - rightMargin, height - bottomMargin, color(50));
-  perCapita = new Plot(leftMargin, topMargin, width - rightMargin, height - bottomMargin, color(50));
+
   graphHeight = height - topMargin - bottomMargin;
   graphWidth = width - leftMargin - rightMargin;
   rawData = loadStrings(dataFile); 
   regionStyleData = loadStrings(regionsFile); 
   parseData();
-  
+    
   cp5 = new ControlP5(this);
-  cp5.addToggle("Toggle View")
+  cp5.setColorValueLabel(0);
+  cp5.addToggle("toggle")
      .setValue(0)
-     .setPosition(width-rightMargin+100, 30)
+     .setPosition(width-rightMargin-100, 30)
      .setSize(100,20)
-     .setValue(true)
      .setMode(ControlP5.SWITCH)
      ;
 }
@@ -69,79 +67,24 @@ void draw() {
   background(255, 255, 255);
   smooth();
   
-  if(flag==true){
-    drawGraph(countryLevel);
-  } else {
-    drawGraph(perCapita);
-  }
-
-// country level data renders
-//  countryLevel.display();
-//  countryLevel.gui(xCountryLabel, yCountryLabel, gniMin, gniMax, co2Min, co2Max);
-//  render(allBubbles, gniMin, gniMax, co2Min, co2Max, countryLevel);
-
-  // per capita data renders
-  perCapita.display();
-  perCapita.gui(xPerCapitaLabel, yPerCapitaLabel, gni_pcMin, gni_pcMax, co2_pcMin, co2_pcMax);
-  render(moreBubbles, gni_pcMin, gni_pcMax, co2_pcMin, co2_pcMax, perCapita);  
-
+  drawGraph(graphValue);
   drawTitle();
   drawLegend();
 }
 
+void toggle(boolean theFlag){
+  if (theFlag == true) {
+    graphValue = countryLevel;
+  } else {
+    graphValue = perCapita;
+  }
+  println("toggled: " + toggle);
+}
+
 void drawGraph(Plot plot) {
   plot.display();
+  plot.render();
   plot.gui();
-  render();
-}
-
-
-void mouseReleased() {
-  println("mouse click");
-  String link1 = "http://www.openprocessing.org/sketch/51382";
-  String link2 = "http://data.worldbank.org/indicator";
-  String link3 = "http://colorbrewer2.org/";
-  
-  //if (dist(mouseX, 
-  
-  
-}
-
-void keyPressed() {
-  println("key pressed");
-}
-
-void buttons() {
-  float thirdW = graphWidth/3;
-  
-  pushMatrix();
-  translate(leftMargin + (2*thirdW), 25);
-  
-  String toggle = "Toggle view:";
-  float toggleW = textWidth(toggle);
-  text(toggle, thirdW - 110 - toggleW, 20);
-  
-  rectMode(CORNERS);
-  fill(255,0,0);
-  rect(thirdW-100,0,thirdW,30);
-  fill(255);
-  String plot1 = "Country-Level";
-  String plot2 = "Per-Capita Data";
-  text(plot1, thirdW - 93, 20);
-  
-  popMatrix();
-}
-
-void render(ArrayList<Bubble> someBubbles, float xMin, float xMax, float yMin, float yMax, Plot dataPlot) {
-  for (int i = someBubbles.size()-1; i>=0; i --) {
-    Bubble b = someBubbles.get(i);
-    b.display(xMin, xMax, yMin, yMax, dataPlot);
-    //println(b);
-  }
-  for (int i = someBubbles.size()-1; i>=0; i --) {
-    Bubble b = someBubbles.get(i);
-    b.displayLabel();
-  }
 }
 
 void drawTitle() {
@@ -172,7 +115,7 @@ void drawLegend() {
   pushMatrix();
   translate(leftMargin, graphHeight + topMargin);
 //  rectMode(CORNERS);
-//  noStroke();
+  noStroke();
 //  fill(200);
 //  rect(0, 0, graphWidth, bottomMargin);
   
@@ -261,10 +204,11 @@ void drawLegend() {
   text(colorBrewer, 10, 52);
   text(codeReuse, 10, 72);
   popMatrix();
-
+  
+  // TO DO:
   // create pop-up for data corrections / fill-ins
-
   // provide explanation of logarithms?
+  
   popMatrix();
   popMatrix();
 }
@@ -332,5 +276,7 @@ void parseData() {
     println("bubble size: " + allBubbles.size() + " morebubbles size: " + moreBubbles.size());
   }
   setMinMax();
+  countryLevel = new Plot(xCountryLabel, yCountryLabel, gniMin, gniMax, co2Min, co2Max, allBubbles);
+  perCapita = new Plot(xPerCapitaLabel, yPerCapitaLabel, gni_pcMin, gni_pcMax, co2_pcMin, co2_pcMax, moreBubbles);
 }
 
