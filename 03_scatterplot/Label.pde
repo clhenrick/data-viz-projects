@@ -5,7 +5,7 @@ class Label {
     float w = textWidth(txt);
     
     // check for viz bounds
-    if (x + w + 20 > width) {
+    if (x + w + rightMargin + 20 > width) {
       x -= w + 20;
     }
     

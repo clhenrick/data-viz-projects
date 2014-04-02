@@ -1,61 +1,67 @@
 class Bubble {
   String name; //name of country
-  int xValue; // value for x-axis
-  int yValue; // value for y-axis
-  float r; // radius for size of bubble
+  String region; // region of country according to WB
+  int radius; // radius for size of bubble
+  float size;
   color c; // color of bubble (TBD...)
-  PVector pos; // PVector to store x y coordinates
+  int r, g, b, alpha;
+  float x, y;
+  float xPos, yPos;
+  PVector pos;
+  float xMin, xMax, yMin, yMax;
+  Plot dataPlot;
 
 
-    // Bubble constructor
-  Bubble(float x_, float y_, float r_, color c_) {
-    pos.x = x_;
-    pos.y = y_;
+  // Bubble constructor
+  Bubble(String name_, String region_, float x_, float y_, int pop_, int r_, int g_, int b_ ) {
+    name = name_;
+    region = region_;
+    x = x_;
+    y = y_;
+    radius = pop_;
+    //c = c_;
     r = r_;
-    c = c_;
+    g = g_;
+    b = b_;
   }
 
+  void display(float xMin_, float xMax_, float yMin_, float yMax_, Plot dataPlot_) {
+    xMin = xMin_;
+    yMin = yMin_;
+    xMax = xMax_;
+    yMax = yMax_;
+    dataPlot = dataPlot_;
+    
+    float mapY = map(y, yMin, yMax, 0, dataPlot.h());
+    yPos = height - 170 - mapY;
 
-  void display() {
+    float mapX = map(x, xMin, xMax, 0, dataPlot.w());
+    xPos = 100 + mapX;
+
+    size = map(radius, popMin, popMax, minRadius, maxRadius);
+    
+    alpha = 175;
+
     // check for mouseover
-    if (dist(mouseX, mouseY, pos.x, pos.y) <= r) {
-      fill(255);
+    if (dist(mouseX, mouseY, xPos, yPos) <= size/2 ) {
+      strokeWeight(1);
+      stroke(255,alpha);
+      fill(r, g, b, 255);      
     } 
     else {
-      fill(c);
+      noStroke();
+      fill(r, g, b, alpha);
     }
-    noStroke();
-    ellipse(pos.x, pos.y, r, r);
+    ellipse(xPos, yPos, size, size);
   }
 
   void displayLabel() {
     // check for mouse hover to add text
-    if (dist(mouseX, mouseY, pos.x, pos.y) < r) { 
+    if (dist(mouseX, mouseY, xPos, yPos) < size/2) { 
 
-      String txt = "Name: " + name + " GNI: " + xValue + " CO2 kt: " + yValue + " Pop: " + r; 
-      float textW = textWidth(txt);
-      float x, y;
-      y = mouseY;
-      x = mouseX;
-
-      // if the text is too close to the edge move it over 
-      if (mouseX + textW + rightMargin > width) {
-        x -= textW + rightMargin;
-      } 
-      else {
-        x = mouseX;
-      }
-      fill(255, 0, 0);
-      noStroke();
-      text(txt, x, y);
+      String txt = name + " | Region: " + region + " | GNI: " + x + " | CO2 kt: " + y + " | Pop: " + radius;
+      Label label = new Label(txt, mouseX, mouseY);
     }
   }
-
-  //  void displayLabel(){
-  //    if (dist(mouseX, mouseY, posX, posY) <= r) {
-  //      String txt = "test";
-  //      Label label = new Label(txt, mouseX, mouseY);
-  //    }
-  //  }
 }
 
