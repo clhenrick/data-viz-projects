@@ -15,7 +15,6 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
     * Not every country listed has data for the same year. 
     
     * There are aggregates of countries within the dataset such as "East Asia and the Pacific" or "Sub-Saharan Africa". While these may be useful, for my data-viz I'm attempting to compare only countries. 
-
 2. To sort out countries only from the raw data:
 
     * Grabbed category data for 2010 as this was the latest year available for the CO2 kt category. 
@@ -28,8 +27,6 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 
 	   * ```SQL
 	 SELECT * FROM ne_10m_admin_0_countries WHERE "pop_gni_co2_2010_Country Name"  != 'NULL'  AND  "pop_gni_co2_2010_GNI_2010" !='' AND  	"pop_gni_co2_2010_CO2_2010" != '' AND  "pop_gni_co2_2010_POP_2010" != ''	  ``` 
-
- 
 3. I noticed that some countries lacked data for 2010. To fix this I manually added data from the next available previous year to try to fill in the gaps (probably not the most statistically sound method). These problem countries are listed below. A couple countries such as Myanmar and North Korea did not have any data from the World Bank so were excluded from the viz. 
 
 
@@ -42,8 +39,6 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 	* Djibouti GNI (country & per capita) 2005
 	* Somalia / Somaliland GNI (both) 1990
 	* Iran (both GNI) 2009 
-
-
 4. In future iterations the following features would be added:
    * Animate the circles when switching visualizations.
    * Add an ability to turn on/off the logarithm.
