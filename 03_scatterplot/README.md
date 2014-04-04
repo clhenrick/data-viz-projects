@@ -12,28 +12,28 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 
 1. I downloaded data from World Bank Data indicators in the Climate Change category. I noticed problems with the raw data:  
     
-    -Not every country listed has data for the same year. 
+    * Not every country listed has data for the same year. 
     
-    -There are aggregates of countries within the dataset such as "East Asia and the Pacific" or "Sub-Saharan Africa". While these may be useful, for my data-viz I'm attempting to compare only countries. 
+    * There are aggregates of countries within the dataset such as "East Asia and the Pacific" or "Sub-Saharan Africa". While these may be useful, for my data-viz I'm attempting to compare only countries. 
 
-2. To sort out countries from the raw data:
+2. To sort out countries only from the raw data:
 
-    * I Grabbed data for 2010 as this was the latest year for CO2 kt. 
+    * Grabbed data for 2010 as this was the latest year available for the CO2 kt category. 
     
     * Combined the data into one spread sheet.
     
-    * Used a join in QGIS to a world dataset file so that only matching countries would be imported. I used the 'Country Code' key from the World Bank data and joined it to Natural Earth's ne_10m_admin_0_countries.shp 'Adm0_a3_is' column. 
+    * Used a `join` in [QGIS](http://qgis.org/en/site/) to a world dataset file so that only matching countries would be imported. I used the 'Country Code' key from the World Bank data and joined it to [Natural Earth](http://www.naturalearthdata.com/)'s ne_10m_admin_0_countries.shp 'Adm0_a3_is' column. 
     
-    * To only keep matching countries from Natural Earth and the World Bank I filtered out data with NULL values using an SQL WHERE clause:
+    * To only keep matching countries from Natural Earth and the World Bank I filtered out data with NULL values using an SQL `WHERE` clause:
 
 	   * ```SQL
 	 SELECT * FROM ne_10m_admin_0_countries WHERE "pop_gni_co2_2010_Country Name"  != 'NULL'  AND  "pop_gni_co2_2010_GNI_2010" !='' AND  	"pop_gni_co2_2010_CO2_2010" != '' AND  "pop_gni_co2_2010_POP_2010" != ''	  ``` 
 
  
-3. I noticed that a few major countries lacked data for 2010. To fix this I manually added data from the next available previous year to try to fill in the gaps (probably not the most statistically sound method). These problem countries are listed below. A couple countries such as Myanmar and North Korea did not have any data from the World Bank so were excluded from the viz. 
+3. I noticed that some countries lacked data for 2010. To fix this I manually added data from the next available previous year to try to fill in the gaps (probably not the most statistically sound method). These problem countries are listed below. A couple countries such as Myanmar and North Korea did not have any data from the World Bank so were excluded from the viz. 
 
 
-    Countries shown that had no data for 2010. Their values were replaced with data from next available previous year. 
+    Countries shown that had no data for 2010. Their values were replaced with data from next available previous year. The countries and year of data is listed below:
 
 	* Argentina GNI (country & per capita) 2006 
 	* Greenland GNI (country & per capita) 2009 
