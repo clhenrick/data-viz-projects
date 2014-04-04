@@ -12,7 +12,8 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 
 1. I downloaded data from World Bank Data indicators in the Climate Change category. I noticed problems with the raw data:    
   * Not every country listed has data for the same year.     
-  * There are aggregates of countries within the dataset such as "East Asia and the Pacific" or "Sub-Saharan Africa". While these may be useful, for my data-viz I'm attempting to compare only countries. 
+  * There are aggregates of countries within the dataset such as "East Asia and the Pacific" or "Sub-Saharan   Africa". While these may be useful, for my data-viz I'm attempting to compare only countries. 
+  
 2. To sort out countries only from the raw data:
   * Grabbed category data for 2010 as this was the latest year available for the CO2 kt category.     
   * Combined the data into one spread sheet.    
