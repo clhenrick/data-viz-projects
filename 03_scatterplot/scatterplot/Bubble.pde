@@ -59,7 +59,7 @@ class Bubble {
     // check for mouse hover to add text
     if (dist(mouseX, mouseY, xPos, yPos) < size/2) { 
 
-      String txt = name + " | Region: " + region + " | GNI: " + x + " | CO2 kt: " + y + " | Pop: " + radius;
+      String txt = name + " | Region: " + region + " | GNI: " + x + " | CO2 kt: " + y + " | Pop: " + str(radius);
       Label label = new Label(txt, mouseX, mouseY);
     }
   }

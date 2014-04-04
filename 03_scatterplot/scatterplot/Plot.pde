@@ -44,6 +44,8 @@ class Plot {
     xSpacer = w()/9;
     ySpacer = h()/9;
     //println("w: " + w() + " w/10: " + w()/10);
+    PFont f = createFont("Frutiger LT Std 55 Roman", 12);
+    textFont(f);
 
     //ticks and labels for x-axis
     for (int i = 0; i<=w(); i += xSpacer) {

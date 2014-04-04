@@ -1,7 +1,7 @@
-// Parsons data viz midterm scatterplot test
-// chris henrick, spring 2014
-// Code used in this sketch has been reused and altered from: http://www.openprocessing.org/sketch/51382
-// color palette from ColorBrewer2.org
+// chris l henrick
+// Parsons, data-viz class spring 2014, midterm, scatterplot
+// *Code used in this sketch has been reused and altered from: http://www.openprocessing.org/sketch/51382
+// *color palette from ColorBrewer2.org
 
 import controlP5.*;
 ControlP5 cp5;
@@ -68,8 +68,8 @@ void draw() {
   smooth();
   
   drawGraph(graphValue);
-  drawTitle();
   drawLegend();
+  drawTitle();
 }
 
 void toggle(boolean theFlag){
@@ -89,8 +89,11 @@ void drawGraph(Plot plot) {
 
 void drawTitle() {
   int xPos, yPos;
+  PFont f = createFont("Frutiger LT Std 65 Bold", 18);
+  textFont(f);
   String title = "Global CO2 Output and Income";
   float titleWidth = textWidth(title);
+  title.toUpperCase();
   fill(0);
   text(title, width/2 - titleWidth/2, 50);
 }
@@ -101,7 +104,9 @@ void drawLegend() {
   int yMargin = 10;  
   int legendWidth = graphWidth - (xMargin * 2);
   int legendHeight = bottomMargin - (yMargin * 2);
-
+  
+  PFont f = createFont("Frutiger LT Std 55 Roman", 12);
+  textFont(f);
   String regionExp = "Color represents a country's region";
   float regionExpL = textWidth(regionExp);
   int numRegions = 7;
@@ -176,7 +181,7 @@ void drawLegend() {
   ellipse(thirdLW/4, 50, minRadius, minRadius);
   fill(0);
   String labelMin = "20,470\npeople\n(min)";
-  textAlign(CENTER, CENTER);
+  //textAlign(CENTER, CENTER);
   text(labelMin, 55, 53);
 
   fill(175);
