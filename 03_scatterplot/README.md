@@ -18,7 +18,7 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 
 2. To sort out countries only from the raw data:
 
-    * Grabbed data for 2010 as this was the latest year available for the CO2 kt category. 
+    * Grabbed category data for 2010 as this was the latest year available for the CO2 kt category. 
     
     * Combined the data into one spread sheet.
     
@@ -41,4 +41,11 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 	* Sudan and South Sudan: I split Sudan's CO2 evenly as South Sudan has no data in this category (probably due to it being a relatively new country)
 	* Djibouti GNI (country & per capita) 2005
 	* Somalia / Somaliland GNI (both) 1990
-	* Iran (both GNI) 2009
+	* Iran (both GNI) 2009 
+
+
+4. In future iterations the following features would be added:
+   * Animate the circles when switching visualizations.
+   * Add an ability to turn on/off the logarithm.
+   * Highlight all circles by region when hovering over a region in the legend.
+   * Improve the typography.
