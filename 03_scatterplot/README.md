@@ -39,3 +39,6 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
    * Add an ability to turn on/off the logarithm.
    * Highlight all circles by region when hovering over a region in the legend.
    * Improve the typography.
+   * Add a label for the toggle switch.
+   * Show a projection of the trend into the future.
+   * Toggle a view to display the data on a world map.
