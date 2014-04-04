@@ -1,5 +1,4 @@
-#Visualizing Global CO2 output and GNI
-##With an interactive Scatterplot graph
+#Visualizing Global CO2 output and GNI with an interactive Scatterplot graph
 
 
 This is a [Processing Sketch](http://www.processing.org/) that visualizes data relating to climate change from the [World Bank Data Indicators.](http://data.worldbank.org/indicator) Two visualizations can be toggled using a switch in the upper right corner. Specific data for each country can be viewed by hovering the mouse over each circle. Color scheme was borrowed from Cynthia Brewer's [Color Brewer](http://colorbrewer2.org/) tool. 
