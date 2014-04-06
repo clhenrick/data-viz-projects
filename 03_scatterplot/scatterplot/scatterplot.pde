@@ -1,5 +1,5 @@
 // chris l henrick
-// Parsons, data-viz class spring 2014, midterm, scatterplot
+// Parsons Data-Viz class Spring 2014, midterm, scatterplot
 // *Code used in this sketch has been reused and altered from: http://www.openprocessing.org/sketch/51382
 // *color palette from ColorBrewer2.org
 

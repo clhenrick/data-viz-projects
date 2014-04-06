@@ -1,7 +1,9 @@
-#Visualizing Global CO2 output and GNI with an interactive Scatterplot graph
+#Climate Change's Influences: Visualizing Global CO2 and Gross National Income.
 
 
-This is a [Processing Sketch](http://www.processing.org/) that visualizes data relating to climate change from the [World Bank Data Indicators.](http://data.worldbank.org/indicator) Two visualizations can be toggled using a switch in the upper right corner. Specific data for each country can be viewed by hovering the mouse over each circle. Color scheme was borrowed from Cynthia Brewer's [Color Brewer](http://colorbrewer2.org/) tool. 
+This is a [Processing Sketch](http://www.processing.org/) that visualizes data relating to climate change from the [World Bank Data Indicators.](http://data.worldbank.org/indicator) Two visualizations can be toggled using a switch in the upper right corner. Specific data for each country can be viewed by hovering the mouse over each circle. Color scheme was borrowed from Cynthia Brewer's [Color Brewer](http://colorbrewer2.org/) tool. Some code for this sketch was borrowed from a scatterplot graph created by [Christian Marc Schmidt](http://www.openprocessing.org/sketch/51382). 
+
+My intention is for the audience to view a trend that suggests as countries become more affluent their output of CO2 increases. This is important in discussing the problems associated with climate change and potential solutions. For example topics come to mind such as "should developed nations assist developing nations in reducing their CO2 foot print?" and "do developed nations have the sole responsibility to rectify the climate change problem as they are the main culprits of greenhouse gas emissions?"
 
 
 ![country-level-data](https://github.com/clhenrick/data-viz-projects/raw/master/03_scatterplot/scatterplot/images/data-viz-midterm-scatterplot-test8a.png) 
@@ -34,7 +36,9 @@ This is a [Processing Sketch](http://www.processing.org/) that visualizes data r
 	* Somalia / Somaliland GNI (both) 1990
 	* Iran (both GNI) 2009 
 
-4. In future iterations the following features would be added:
+4. The data for GNI and CO2 was then mapped to x and y axises respectively using Processing's map() method. A natural logarithm was applied to these two datasets. When graphed, this suggests a linear relationship between growth in GNI and CO2. However, this distorts the fact that some countries with a high level of GNI may not have a high output of CO2. 
+
+5. In future iterations the following features would be added:
    * Animate the circles when switching visualizations.
    * Add an ability to turn on/off the logarithm.
    * Highlight all circles by region when hovering over a region in the legend.
