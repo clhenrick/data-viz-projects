@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8">
+	<title>Elevation Profile Test</title>
+</head>
+<style type="text/css">
+	
+    body {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+	.area {
+	  fill: blue;
+	}
+
+</style>
+<body>
+	<h1>PCT CA Section D Profile</h1>
+	<script type="text/javascript" src="js/d3.js"></script>
+	<script type="text/javascript">
+
+        var file = "data/ca_sec_d_track.csv",
+            fileNew = "data/ca_sec_a_track.csv",
+            test = "data/ca_sec_a_track_simp2_edited.csv";
+
+		var margin = {top: 20, right: 20, bottom: 30, left: 50},			
+    		width = 1000 - margin.left - margin.right,
+    		height = 500 - margin.top - margin.bottom;
+
+    	var x = d3.scale.linear()
+    			.range([0, width]);
+
+    	var y = d3.scale.linear()
+    			.range([height, 0]);
+
+    	var xAxis = d3.svg.axis()
+    		.scale(x)
+    		.orient("bottom");
+
+    	var yAxis = d3.svg.axis()
+    		.scale(y)
+    		.orient("left");
+
+    	var area = d3.svg.area()
+            .interpolate("basis")
+    		.x(function(d) { return x(d.id); })
+    		.y0(height)
+    		.y1(function(d) { return y(d.elev); });
+
+    	var svg = d3.select("body").append("svg")
+            .attr("class", "chart")
+    		.attr("width", width + margin.left + margin.right)
+    		.attr("height", height + margin.top + margin.bottom)
+    		.append("g")
+    		.attr("transform", "translate(" + margin.left + "," + margin.top + ")"); // translate the graph's origin using margin object 0,0
+
+    	d3.csv(test, function(error, data){
+    		data.forEach(function(d){
+                d.id = +d.dist_total;
+                d.elev = +d.elev;                    
+    		});
+
+    		console.log("data.length: ", data.length);
+
+    		x.domain(d3.extent(data, function(d){ return d.dist_total; }));
+    		y.domain([0, d3.max(data, function(d){ return d.elev; })]);
+
+    		svg.append("path")
+    			.datum(data)
+    			.attr("class", "area")
+    			.attr("d", area);
+
+    		svg.append("g")
+    			.attr("class", "x axis")
+    			.attr("transform", "translate(0," + height + ")")
+    			.call(xAxis);
+
+    		svg.append("g")
+    			.attr("class", "y axis")
+    			.call(yAxis)
+    			.append("text")
+    			.attr("transform", "rotate(90)")
+    			.attr("y", -15)
+                .attr("x", 85)
+    			.attr("dy", ".71em")
+    			.style("text-anchor", "end")
+    			.text("Elevation (meters)");
+
+            svg.append("g")
+                .attr("class", "x axis")
+                //.call(xAxis)
+                .append("text")
+                .attr("x", 940)
+                .attr("y", 480)
+                .attr("dx", ".71em")
+                .style("text-anchor", "end")
+                .text("Distance (meters)");
+    	});
+
+        // function test() {
+        //     d3.csv(fileNew, function(error, data) {
+        //         data.forEach(function(d){
+        //             d.id = +d.id;
+        //             d.elev = +d.elev;                    
+        //         });
+
+        //     var area = svg.selectAll("area")
+        //         .data(data);
+
+        //     area.enter();
+                
+        //     }
+        // }
+
+        // this works but not good to change y and x axis
+        function redraw() {
+            d3.csv(fileNew, function(error, data) {
+                data.forEach(function(d){
+                    d.id = +d.id;
+                    d.elev = +d.elev;                    
+                });
+
+            console.log("dataNew.length: ", data.length);
+
+            x.domain(d3.extent(data, function(d){ return d.id; }));
+            y.domain([0, d3.max(data, function(d){ return d.elev; })]);
+
+            svg.selectAll("path")
+                .datum(data)
+                .transition()
+                .duration(1000)
+                .attr("d", area);
+
+            svg.select(".x.axis")
+                .transition()
+                .duration(1000)
+                .call(xAxis);
+
+            svg.select(".y.axis")
+                .transition()
+                .duration(1000)
+                .call(yAxis);                
+            
+            });
+        };
+
+        d3.select("h1")
+            .on("click", function() {
+                redraw();
+            });
+            //.text('PCT CA Section A Profile')
+
+	</script>
+</body>
+
+</html>
