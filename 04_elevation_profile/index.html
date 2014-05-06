@@ -11,17 +11,22 @@
         font: bold 40px Goudy, serif;
     }
 
+
     #footer {        
         position: absolute;
         display: block;
         top: 600px;
         margin-left: 20px;
-        font: 10px sans-serif;
+        font: 12px sans-serif;
         color: hsl(0,0%,50%);
     }
 
     #footer a {
         text-decoration: none;
+    }
+    
+    #footer span {
+        color: hsl(0,0%,20%);
     }
 	
     svg {
@@ -68,13 +73,15 @@
 
 </style>
 <body>
-	<h1>Pacific Crest Trail Elevation Profile</h1>
+	<h1>Pacific Crest Trail Elevation Profile</h1>    
     <div id="footer">
+        <span>Use the mouse wheel to zoom, drag to pan.</span>
+        <br>
         Code borrowed from Mike Bostock's block <a href="http://bl.ocks.org/mbostock/4015254">&#35;4015254</a>.
         <br>
         Data sourced from <a href="http://www.pctmap.net/gps/">Halfmile's PCT Maps</a>.
         <br>
-        Rendered using <a href="http://d3js.org/">D3JS</a>. Processed using <a href="http://qgis.org/en/site/">QGIS</a> and <a href="http://cartodb.com/">CartoDB</a>.
+        Rendered using <a href="http://d3js.org/">D3JS</a>. Processed using <a href="http://qgis.org/en/site/">QGIS</a> and <a href="http://cartodb.com/">CartoDB</a>.        
     </div>
     <script src="http://d3js.org/d3.v3.min.js"></script>
 	<script type="text/javascript">
