@@ -11,11 +11,19 @@
         font: bold 40px Goudy, serif;
     }
 
+    #intro {
+        font: 16px/20px Goudy, serif;
+        letter-spacing: .2px;
+        width: 800px;
+        padding-left: 20px;
+        margin-top: -15px;
+    }
+
 
     #footer {        
         position: absolute;
         display: block;
-        top: 600px;
+        top: 700px;
         margin-left: 20px;
         font: 12px sans-serif;
         color: hsl(0,0%,50%);
@@ -26,6 +34,7 @@
     }
     
     #footer span {
+        font-weight: bold;  
         color: hsl(0,0%,20%);
     }
 	
@@ -73,9 +82,12 @@
 
 </style>
 <body>
-	<h1>Pacific Crest Trail Elevation Profile</h1>    
+	<h1>Pacific Crest Trail Elevation Profile</h1>
+    <div id="intro">
+        The Pacific Crest Trail is a long distance hiking and equestrian trail that traverses western North America from the Mexican border just southeast of San Diego to the Canadian border northwest of Seattle. The trail is closely aligned with the highest portions of the Sierra Nevada and Cascade mountain ranges of California, Oregon and Washington. To hike the entire length in one calendar year is to "thru hike" the trail. To complete a thru hike, a hiker must time their arrival in the Sierra Nevada's after most of winters snow has melted in June but arrive at the Canadian border 2,660 miles later before heavy snow falls in late September.
+    </div>    
     <div id="footer">
-        <span>Use the mouse wheel to zoom, drag to pan.</span>
+        <span>Use the mouse wheel to zoom on the graph and drag to pan.</span>
         <br>
         Code borrowed from Mike Bostock's block <a href="http://bl.ocks.org/mbostock/4015254">&#35;4015254</a>.
         <br>
