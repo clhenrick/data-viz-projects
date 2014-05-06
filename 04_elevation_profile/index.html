@@ -50,6 +50,10 @@
       stroke: #ddd;
     }
 
+    .x.axis, .y.axis {
+        letter-spacing: .7px;
+    }
+
     path.line {
       fill: none;
       stroke: #000;
@@ -93,7 +97,7 @@
     		.scale(x)
     		.orient("bottom")
             .tickSize(-height, 0)
-            .tickPadding(6);
+            .tickPadding(10);
 
     	var yAxis = d3.svg.axis()
     		.scale(y)
@@ -193,8 +197,8 @@
     			//.call(yAxis)
     			.append("text")
     			.attr("transform", "rotate(90)")
-    			.attr("y", -width - 65)
-                .attr("x", 40)
+    			.attr("y", -width - 70)
+                .attr("x", height/2 - 60)
     			.attr("dy", ".71em")
     			//.style("text-anchor", "end")
     			.text("Elevation (meters)");
@@ -207,7 +211,8 @@
                 .attr("y", 475)
                 .attr("dx", ".71em")
                 .style("text-anchor", "end")
-                .text("Distance (meters)");
+                .text("Distance (meters)")
+                .attr("class", "text");
     	});
 
         function draw() {
