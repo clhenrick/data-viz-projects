@@ -5,31 +5,58 @@
 	<title>Elevation Profile Test</title>
 </head>
 <style type="text/css">
+
+    h1 {
+        margin-left: 2%;
+    }
 	
-    body {
-	  font: 10px sans-serif;
-	}
+    svg {
+      font-size: 10px;
+    }
 
-	.axis path,
-	.axis line {
-	  fill: none;
-	  stroke: #000;
-	  shape-rendering: crispEdges;
-	}
+    .axis {
+      shape-rendering: crispEdges;
+    }
 
-	.area {
-	  fill: blue;
-	}
+    .axis path, .axis line {
+      fill: none;
+      stroke-width: .5px;
+    }
+
+    .x.axis path {
+      stroke: #000;
+    }
+
+    .x.axis line {
+      stroke: #fff;
+      stroke-opacity: .5;
+    }
+
+    .y.axis line {
+      stroke: #ddd;
+    }
+
+    path.line {
+      fill: none;
+      stroke: #000;
+      stroke-width: .5px;
+    }
+
+    rect.pane {
+      cursor: move;
+      fill: none;
+      pointer-events: all;
+    }
 
 </style>
 <body>
-	<h1>PCT CA Section D Profile</h1>
-	<script type="text/javascript" src="js/d3.js"></script>
+	<h1>Pacific Crest Trail Elevation Profile</h1>
+	<script type="text/javascript" src="js/d3.min.js"></script>
 	<script type="text/javascript">
 
         var file = "data/ca_sec_d_track.csv",
             fileNew = "data/ca_sec_a_track.csv",
-            test = "data/ca_sec_a_track_simp2_edited.csv";
+            test = "data/pct_points_simp_50.csv";
 
 		var margin = {top: 20, right: 20, bottom: 30, left: 50},			
     		width = 1000 - margin.left - margin.right,
@@ -43,28 +70,89 @@
 
     	var xAxis = d3.svg.axis()
     		.scale(x)
-    		.orient("bottom");
+    		.orient("bottom")
+            .tickSize(-height, 0)
+            .tickPadding(6);
 
     	var yAxis = d3.svg.axis()
     		.scale(y)
-    		.orient("left");
+    		.orient("left")
+            .tickSize(-width)
+            .tickPadding(6);
 
+        // generate area
     	var area = d3.svg.area()
             .interpolate("basis")
-    		.x(function(d) { return x(d.id); })
-    		.y0(height)
+    		.x(function(d) { return x(d.dist_total); })
+    		.y0(y(0))
     		.y1(function(d) { return y(d.elev); });
 
-    	var svg = d3.select("body").append("svg")
+        // generate line
+        var line = d3.svg.line()
+            .interpolate("basis")
+            .x(function(d) { return x(d.dist_total); })
+            .y(function(d) { return y(d.elev); });
+
+    	var svg = d3.select("body").append("svg:svg")
             .attr("class", "chart")
     		.attr("width", width + margin.left + margin.right)
     		.attr("height", height + margin.top + margin.bottom)
-    		.append("g")
+    		.append("svg:g")
     		.attr("transform", "translate(" + margin.left + "," + margin.top + ")"); // translate the graph's origin using margin object 0,0
 
+        var zoom = d3.behavior.zoom()
+            .on("zoom", draw); 
+
+        var gradient = svg.append("defs").append("svg:linearGradient")
+            .attr("id", "gradient")
+            .attr("x2", "0%")
+            .attr("y2", "100%");
+
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#fff")
+            .attr("stop-opacity", .5);
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#999")
+            .attr("stop-opacity", 1);
+
+        svg.append("clipPath")
+            .attr("id", "clip")
+          .append("svg:rect")
+            .attr("x", x(0))
+            .attr("y", y(1))
+            .attr("width", x(1) - x(0))
+            .attr("height", y(0) - y(1));
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + width + ",0)");
+
+        svg.append("path")
+            .attr("class", "area")
+            .attr("clip-path", "url(#clip)")
+            .style("fill", "url(#gradient)");
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")");
+
+        svg.append("path")
+            .attr("class", "line")
+            .attr("clip-path", "url(#clip)");
+
+        svg.append("rect")
+            .attr("class", "pane")
+            .attr("width", width)
+            .attr("height", height)
+            .call(zoom);            
+
     	d3.csv(test, function(error, data){
+            if (error) console.log(error);
     		data.forEach(function(d){
-                d.id = +d.dist_total;
+                d.dist_total = +d.dist_total;
                 d.elev = +d.elev;                    
     		});
 
@@ -73,37 +161,51 @@
     		x.domain(d3.extent(data, function(d){ return d.dist_total; }));
     		y.domain([0, d3.max(data, function(d){ return d.elev; })]);
 
-    		svg.append("path")
-    			.datum(data)
-    			.attr("class", "area")
-    			.attr("d", area);
+            // bind the data to our path elements
+            svg.select("path.area").data([data]);
+            svg.select("path.line").data([data]);
 
-    		svg.append("g")
-    			.attr("class", "x axis")
-    			.attr("transform", "translate(0," + height + ")")
-    			.call(xAxis);
+            draw();
 
-    		svg.append("g")
-    			.attr("class", "y axis")
-    			.call(yAxis)
-    			.append("text")
-    			.attr("transform", "rotate(90)")
-    			.attr("y", -15)
-                .attr("x", 85)
-    			.attr("dy", ".71em")
-    			.style("text-anchor", "end")
-    			.text("Elevation (meters)");
+    		// svg.append("path")
+    		// 	.datum(data)
+    		// 	.attr("class", "area")
+    		// 	.attr("d", area);
 
-            svg.append("g")
-                .attr("class", "x axis")
-                //.call(xAxis)
-                .append("text")
-                .attr("x", 940)
-                .attr("y", 480)
-                .attr("dx", ".71em")
-                .style("text-anchor", "end")
-                .text("Distance (meters)");
+    		// svg.append("g")
+    		// 	.attr("class", "x axis")
+    		// 	.attr("transform", "translate(0," + height + ")")
+    		// 	.call(xAxis);
+
+    		// svg.append("g")
+    		// 	.attr("class", "y axis")
+    		// 	.call(yAxis)
+    		// 	.append("text")
+    		// 	.attr("transform", "rotate(90)")
+    		// 	.attr("y", -15)
+      //           .attr("x", 85)
+    		// 	.attr("dy", ".71em")
+    		// 	.style("text-anchor", "end")
+    		// 	.text("Elevation (meters)");
+
+      //       svg.append("g")
+      //           .attr("class", "x axis")
+      //           //.call(xAxis)
+      //           .append("text")
+      //           .attr("x", 940)
+      //           .attr("y", 480)
+      //           .attr("dx", ".71em")
+      //           .style("text-anchor", "end")
+      //           .text("Distance (meters)");
     	});
+
+        function draw() {
+          svg.select("g.x.axis").call(xAxis);
+          svg.select("g.y.axis").call(yAxis);
+          svg.select("path.area").attr("d", area);
+          svg.select("path.line").attr("d", line);
+          // d3.select("#footer span").text("U.S. Commercial Flights, " + x.domain().map(format).join("-"));
+        }     
 
         // function test() {
         //     d3.csv(fileNew, function(error, data) {
