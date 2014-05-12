@@ -22,7 +22,6 @@ SET dist = (SELECT
   LIMIT 1
 )
 ```
-
 3. Then use [D3JS](d3js.org) to visualize as an area graph.
 
 ## Progress
