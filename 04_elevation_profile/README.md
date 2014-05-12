@@ -8,19 +8,20 @@ Elevation Profile of the Pacific Crest Trail using D3JS
 1. Use QGIS to down-sample the data by selecting 1/50 of the data points using the query selector.
 
 2. Use PostGIS to compute distance from a point and it's nearest neighbor with an index value of n - 1 with the following query: 
-```sql
-UPDATE ca_sec_a_track_simp2
-SET dist = (SELECT
-  ST_Distance(
-    ca_sec_a_track_simp2.the_geom::geography,
-    t2.the_geom::geography)
-  FROM ca_sec_a_track_simp2 t2
-  WHERE t2.id <> ca_sec_a_track_simp2.id
-  ORDER BY 
-   ca_sec_a_track_simp2.the_geom <-> t2.the_geom
-  LIMIT 1
-)
-```
+
+	```sql
+	UPDATE ca_sec_a_track_simp2
+	SET dist = (SELECT
+	  ST_Distance(
+	    ca_sec_a_track_simp2.the_geom::geography,
+	    t2.the_geom::geography)
+	  FROM ca_sec_a_track_simp2 t2
+	  WHERE t2.id <> ca_sec_a_track_simp2.id
+	  ORDER BY 
+	   ca_sec_a_track_simp2.the_geom <-> t2.the_geom
+	  LIMIT 1
+	)
+	```
 3. Then use [D3JS](d3js.org) to visualize as an area graph.
 
 ## Progress
