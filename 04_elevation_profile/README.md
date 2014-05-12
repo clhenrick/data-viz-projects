@@ -21,8 +21,7 @@ SET dist = (SELECT
    ca_sec_a_track_simp2.the_geom <-> t2.the_geom
   LIMIT 1
 )
-```
-
+``` 
 3. Then use [D3JS](d3js.org) to visualize as an area graph.
 
 ## Progress
